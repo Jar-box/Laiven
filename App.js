@@ -7,6 +7,7 @@ import JournalList from "./src/components/JournalList";
 import CreateJournalEntryScreen from "./src/screens/CreateJournalEntryScreen";
 import JournalDetailScreen from "./src/screens/JournalDetailScreen";
 import PostForm from "./src/components/PostForm";
+import { TouchableOpacity, Text } from "react-native";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -84,7 +85,20 @@ const App = () => {
         <Tab.Screen
           name="PostForm"
           component={PostForm}
-          options={{ title: "Create Post" }}
+          options={({ navigation }) => ({
+            title: "Create Post",
+            headerRight: () => (
+              <TouchableOpacity
+                style={{ marginRight: 16 }}
+                onPress={() => {
+                  // Navigate to the CreateJournalEntry screen or implement your logic
+                  navigation.navigate("CreateJournalEntry");
+                }}
+              >
+                <Text style={{ color: "#06D6A0", fontSize: 16 }}>Create Entry</Text>
+              </TouchableOpacity>
+            ),
+          })}
         />
         <Tab.Screen name="Home" component={HomeScreen} />
       </Tab.Navigator>

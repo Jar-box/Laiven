@@ -2,6 +2,7 @@ import React from "react";
 import {
   View,
   TextInput,
+  Image,
   TouchableOpacity,
   Text,
   StyleSheet,
@@ -17,12 +18,17 @@ const PostForm = ({ postText, setPostText, handlePost }) => {
         value={postText}
         onChangeText={(text) => setPostText(text)}
       />
-      <View style={styles.postbuttonContainer}>
-        <TouchableOpacity style={styles.rectangularButton} onPress={handlePost}>
-          <Text style={styles.buttonText}>Post</Text>
-        </TouchableOpacity>
+
+      <View style={styles.profileContainer}>
+      <Image
+          source={require('../../assets/Sir.jpg')} 
+          style={styles.profileImage}
+        />
+      <Text style={styles.usernameText}>Jerremy</Text>
       </View>
     </View>
+
+    
   );
 };
 
@@ -31,8 +37,8 @@ const styles = StyleSheet.create({
     width: "80%",
     height: 100,
     marginBottom: 20,
-    marginTop: 105,
-    left: 25,
+    marginTop: 45,
+    left: 50,
   },
   input: {
     height: 100,
@@ -40,12 +46,7 @@ const styles = StyleSheet.create({
     borderWidth: 0,
     padding: 10,
     marginBottom: 10,
-  },
-  postbuttonContainer: {
-    position: "absolute",
-    top: 42,
-    right: 21,
-  },
+  },  
   rectangularButton: {
     width: 80,
     height: 40,
@@ -56,6 +57,23 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: "white",
+  },
+  profileContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: -15,
+    position: 'absolute',
+    left: -35,
+  },
+  profileImage: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    marginRight: 10,
+  },
+  usernameText: {
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 });
 
