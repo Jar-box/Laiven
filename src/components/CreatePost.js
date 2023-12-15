@@ -2,6 +2,7 @@ import React from "react";
 import {
   View,
   TextInput,
+  Image,
   TouchableOpacity,
   Text,
   StyleSheet,
@@ -22,22 +23,48 @@ const CreatePost = ({ postText, setPostText }) => {
         value={postText}
         onChangeText={(text) => setPostText(text)}
       />
+      <View style={styles.profileContainer}>
+      <Image
+          source={require('../../assets/Sir.jpg')} 
+          style={styles.profileImage}
+        />
+      <Text style={styles.usernameText}>Jerremy</Text>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   postContainer: {
-    width: "100%",
-    paddingHorizontal: 20,
-    paddingTop: 20,
+    width: "80%",
+    height: 100,
+    marginBottom: 20,
+    marginTop: 45,
+    left: 50,
   },
   input: {
     height: 100,
-    borderColor: "#ddd",
-    borderWidth: 1,
+    borderColor: "transparent",
+    borderWidth: 0,
     padding: 10,
     marginBottom: 10,
+  },
+  profileContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: -15,
+    position: 'absolute',
+    left: -35,
+  },
+  profileImage: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    marginRight: 10,
+  },
+  usernameText: {
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 });
 
