@@ -5,6 +5,8 @@ import { createStackNavigator } from "@react-navigation/stack";
 import HomeScreen from "./src/screens/HomeScreen";
 import JournalList from "./src/components/JournalList";
 import CreateJournalEntryScreen from "./src/screens/CreateJournalEntryScreen";
+import JournalDetailScreen from "./src/screens/JournalDetailScreen";
+import PostForm from "./src/components/PostForm";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -28,17 +30,17 @@ const JournalStack = () => {
   const navigation = useNavigation();
 
   const handleNotePress = (noteId) => {
-    // Implement navigation to individual note screen or edit screen
-    console.log(`Note pressed: ${noteId}`);
+    const selectedNote = notes.find((note) => note.id === noteId);
+    if (selectedNote) {
+      navigation.navigate("JournalDetail", selectedNote);
+    }
   };
 
   const handleCreateEntry = (newEntry) => {
-    // Handle the creation of a new journal entry
     setNotes((prevNotes) => [
       ...prevNotes,
       { id: prevNotes.length + 1, ...newEntry },
     ]);
-    // Optionally, you can navigate back to the JournalList screen or reset the form
     navigation.goBack();
   };
 
@@ -49,7 +51,7 @@ const JournalStack = () => {
         component={() => (
           <JournalList notes={notes} onNotePress={handleNotePress} />
         )}
-        options={{ headerShown: false }}
+        options={{ title: "Journal" }}
       />
       <Stack.Screen
         name="CreateJournalEntry"
@@ -58,25 +60,31 @@ const JournalStack = () => {
         )}
         options={{ title: "Create Journal Entry" }}
       />
+      <Stack.Screen
+        name="JournalDetail"
+        component={JournalDetailScreen}
+        options={({ route }) => ({
+          // Use the note's date as the title
+          title: route.params.date, // Use the date as the title
+        })}
+      />
     </Stack.Navigator>
   );
 };
 
 const App = () => {
-  const [notes, setNotes] = useState([]);
-
-  const handleNotePress = (noteId) => {
-    // Implement navigation to individual note screen or edit screen
-    console.log(`Note pressed: ${noteId}`);
-  };
   return (
     <NavigationContainer>
       <Tab.Navigator>
         <Tab.Screen
           name="Journal"
-          component={() => (
-            <JournalStack notes={notes} handleNotePress={handleNotePress} />
-          )}
+          component={() => <JournalStack />}
+          options={{ headerShown: false }}
+        />
+        <Tab.Screen
+          name="PostForm"
+          component={PostForm}
+          options={{ title: "Create Post" }}
         />
         <Tab.Screen name="Home" component={HomeScreen} />
       </Tab.Navigator>

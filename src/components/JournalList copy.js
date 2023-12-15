@@ -9,19 +9,12 @@ import {
 import JournalEntry from "./JournalEntry";
 import { useNavigation } from "@react-navigation/native";
 
-const JournalList = ({ notes }) => {
+const JournalList = ({ notes, onNotePress, onCreateEntryPress }) => {
   const navigation = useNavigation();
 
   const handleCreateEntry = () => {
     // Navigate to the CreateEntryScreen
     navigation.navigate("CreateJournalEntry");
-  };
-
-  const handleNotePress = (noteId) => {
-    const selectedNote = notes.find((note) => note.id === noteId);
-    if (selectedNote) {
-      navigation.navigate("JournalDetail", selectedNote);
-    }
   };
 
   return (
@@ -34,7 +27,7 @@ const JournalList = ({ notes }) => {
             date={item.date}
             rating={item.rating}
             content={item.content}
-            onPress={() => handleNotePress(item.id)}
+            onPress={() => onNotePress(item.id)}
           />
         )}
         ListHeaderComponent={<View />}
