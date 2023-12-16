@@ -8,6 +8,7 @@ import JournalList from "./src/components/JournalList";
 import CreateJournalEntryScreen from "./src/screens/CreateJournalEntryScreen";
 import JournalDetailScreen from "./src/screens/JournalDetailScreen";
 import CreatePost from "./src/components/CreatePost";
+import Plans from "./src/components/Plans"
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -72,6 +73,19 @@ const JournalStack = () => {
   );
 };
 
+const PlansStack = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Plans"
+        component={Plans}
+        options={{ title: "Plans" }}
+      />
+      
+    </Stack.Navigator>
+  );
+};
+
 const HomeStack = () => {
   return (
     <Stack.Navigator>
@@ -120,6 +134,11 @@ const App = () => {
         <Tab.Screen
           name="Home"
           component={HomeStack}
+          options={{ headerShown: false }}
+        />
+        <Tab.Screen
+          name="Plans"
+          component={PlansStack}
           options={{ headerShown: false }}
         />
         <Tab.Screen
