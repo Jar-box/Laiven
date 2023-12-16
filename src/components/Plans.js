@@ -1,4 +1,3 @@
-// Import necessary modules
 import React, { useState } from "react";
 import {
   View,
@@ -8,11 +7,13 @@ import {
   StyleSheet,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import AddPlanScreen from "../screens/AddPlanScreen";
 
 // YourComponent definition
-const YourComponent = () => {
+const Plans = () => {
   const navigation = useNavigation();
   const [selectedButton, setSelectedButton] = useState(null);
+  const [plans, setPlans] = useState([]); // State to manage plans
 
   const handleNotesPress = () => {
     if (selectedButton === "Notes") {
@@ -38,14 +39,15 @@ const YourComponent = () => {
 
   const handleAddPlan = (addedPlan) => {
     setPlans((prevPlans) => [...prevPlans, addedPlan]);
-    route.params.onAddPlan(addedPlan);
   };
 
   // Circular button for the "Plans" section
   const plansButton = (
     <TouchableOpacity
       style={styles.circularButton}
-      onPress={() => navigation.navigate("AddPlanScreen")}
+      onPress={() =>
+        navigation.navigate("AddPlanScreen", { onAddPlan: handleAddPlan })
+      }
     >
       <Text style={styles.buttonText}>+</Text>
     </TouchableOpacity>
@@ -82,8 +84,6 @@ const YourComponent = () => {
       <TextInput placeholder="Your input field" />
 
       {/* Other UI components and logic */}
-
-      
     </View>
   );
 };
@@ -126,4 +126,4 @@ const styles = StyleSheet.create({
 });
 
 // Export YourComponent as default
-export default YourComponent;
+export default Plans;

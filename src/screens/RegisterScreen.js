@@ -58,7 +58,7 @@ const RegisterScreen = () => {
             navigation.navigate("HomeScreen");
           }}
         >
-          <Text style={styles.buttonText}>Create Account</Text>
+          <Text style={styles.buttonText}>Create account</Text>
         </Pressable>
       </View>
     </SafeAreaView>

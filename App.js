@@ -3,6 +3,11 @@ import { Pressable, Text } from "react-native";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
+import {
+  Ionicons,
+  FontAwesome5,
+  MaterialCommunityIcons,
+} from "@expo/vector-icons";
 
 import AppLoading from "expo-app-loading";
 import {
@@ -38,25 +43,19 @@ const JournalStack = () => {
   const [entries, setEntries] = useState([
     {
       id: 1,
-      date: "Dec 15, 2023",
-      rating: "Select rating",
-      content: "How's your day?",
-    },
-    {
-      id: 2,
       date: "Dec 12, 2023",
       rating: "Positive",
       content: "Lorem ipsum i miss u so much",
     },
     {
-      id: 3,
+      id: 2,
       date: "Dec 13, 2023",
       rating: "Moderate",
       content:
         "Crush ko na si tristan joe lopez kelan ba ako aamin sa kanya huhuhuhuh",
     },
     {
-      id: 4,
+      id: 3,
       date: "Dec 15, 2023",
       rating: "Harsh",
       content: "Dear diary...,,winsmarl canaughty...",
@@ -236,23 +235,57 @@ const App = () => {
           <Tab.Screen
             name="Home"
             component={HomeStack}
-            options={{ headerShown: false }}
+            options={{
+              headerShown: false,
+              tabBarIcon: ({ color, size }) => (
+                <Ionicons name="home" size={size} color={color} />
+              ),
+            }}
           />
           <Tab.Screen
-            name="Plans"
-            component={PlansStack}
-            options={{ headerShown: false }}
+            name="Calendar"
+            component={CalendarScreen}
+            options={{
+              tabBarIcon: ({ color, size }) => (
+                <FontAwesome5 name="calendar" size={size} color={color} />
+              ),
+            }}
           />
           <Tab.Screen
             name="Journal"
             component={JournalStack}
-            options={{ headerShown: false }}
+            options={{
+              headerShown: false,
+              tabBarIcon: ({ color, size }) => (
+                <MaterialCommunityIcons
+                  name="book-open"
+                  size={size}
+                  color={color}
+                />
+              ),
+            }}
           />
-          <Tab.Screen name="Calendar" component={CalendarScreen} />
           <Tab.Screen
-            name="Login"
+            name="Plans"
+            component={PlansStack}
+            options={{
+              headerShown: false,
+              tabBarIcon: ({ color, size }) => (
+                <Ionicons name="clipboard" size={size} color={color} />
+              ),
+            }}
+          />
+
+          <Tab.Screen
+            name="Log out"
             component={LoginStack}
-            options={{ headerShown: false, tabBarStyle: { display: "none" } }}
+            options={{
+              headerShown: false,
+              tabBarStyle: { display: "none" },
+              tabBarIcon: ({ color, size }) => (
+                <Ionicons name="log-out" size={size} color={color} />
+              ),
+            }}
           />
         </Tab.Navigator>
       </NavigationContainer>

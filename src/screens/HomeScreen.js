@@ -8,6 +8,7 @@ import {
   StyleSheet,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const HomeScreen = () => {
   const [posts, setPosts] = useState([
@@ -17,7 +18,7 @@ const HomeScreen = () => {
       name: "John Doe",
       hoursAgo: "2 hours ago",
       content: "Just had an amazing day at the beach!",
-      votes: 10,
+      votes: 8,
       comments: 5,
       shares: 3,
     },
@@ -128,20 +129,55 @@ const HomeScreen = () => {
             </View>
             <Text style={styles.content}>{post.content}</Text>
             <View style={styles.buttonsContainer}>
-              <View style={styles.votesContainer}>
+              <View style={styles.buttonContainer}>
                 <Pressable onPress={() => handleUpvote(post.id)}>
-                  <Text>Like</Text>
+                  <MaterialCommunityIcons
+                    name={
+                      post.hasUpvoted
+                        ? "arrow-up-bold"
+                        : "arrow-up-bold-outline"
+                    }
+                    size={20}
+                    color={post.hasUpvoted ? "#38FF88" : "rgba(17, 5, 20, 0.3)"}
+                  />
                 </Pressable>
                 <Text>{post.votes}</Text>
                 <Pressable onPress={() => handleDownvote(post.id)}>
-                  <Text>Dislike</Text>
+                  <MaterialCommunityIcons
+                    name={
+                      post.hasDownvoted
+                        ? "arrow-down-bold"
+                        : "arrow-down-bold-outline"
+                    }
+                    size={20}
+                    color={
+                      post.hasDownvoted ? "#DB836D" : "rgba(17, 5, 20, 0.3)"
+                    }
+                  />
                 </Pressable>
               </View>
-              <Pressable onPress={() => handleComment(post.id)}>
-                <Text>Comments: {post.comments}</Text>
+              <Pressable
+                onPress={() => handleComment(post.id)}
+                style={styles.buttonContainer}
+              >
+                <MaterialCommunityIcons
+                  name="comment-outline"
+                  size={20}
+                  color={"rgba(17, 5, 20, 0.3)"}
+                />
+                <Text>{post.comments}</Text>
               </Pressable>
-              <Pressable onPress={() => handleShare(post.id)}>
-                <Text>Shares: {post.shares}</Text>
+              <Pressable
+                onPress={() => handleShare(post.id)}
+                style={styles.buttonContainer}
+              >
+                {" "}
+                <MaterialCommunityIcons
+                  name="share-outline"
+                  size={20}
+                  color={"rgba(17, 5, 20, 0.3)"}
+                />
+                <Text>{post.shares}</Text>
               </Pressable>
             </View>
           </View>
@@ -154,6 +190,7 @@ const HomeScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#FAF3FC",
   },
   border: {
     borderBottomWidth: 0.5,
@@ -187,7 +224,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
   },
-  votesContainer: {
+  buttonContainer: {
     flexDirection: "row",
     gap: 5,
   },

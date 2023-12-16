@@ -50,6 +50,7 @@ const JournalList = ({ entries }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#FAF3FC",
   },
   floatingButton: {
     position: "absolute",

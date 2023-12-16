@@ -11,13 +11,6 @@ import {
 const CreatePost = ({ postText, setPostText }) => {
   return (
     <View style={styles.postContainer}>
-      <TextInput
-        style={styles.input}
-        placeholder="Create post"
-        multiline
-        value={postText}
-        onChangeText={(text) => setPostText(text)}
-      />
       <View style={styles.profileContainer}>
         <Image
           source={require("../../assets/Sir.jpg")}
@@ -26,6 +19,13 @@ const CreatePost = ({ postText, setPostText }) => {
         />
         <Text style={styles.usernameText}>Jerremy</Text>
       </View>
+      <TextInput
+        style={styles.input}
+        placeholder="Create post"
+        multiline
+        value={postText}
+        onChangeText={(text) => setPostText(text)}
+      />
     </View>
   );
 };
@@ -48,9 +48,6 @@ const styles = StyleSheet.create({
   profileContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginTop: -15,
-    position: "absolute",
-    left: -35,
   },
   profileImage: {
     width: 40,
