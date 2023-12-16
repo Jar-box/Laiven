@@ -9,6 +9,8 @@ import JournalList from "./src/components/JournalList";
 import CreateJournalEntryScreen from "./src/screens/CreateJournalEntryScreen";
 import JournalDetailScreen from "./src/screens/JournalDetailScreen";
 import CreatePost from "./src/components/CreatePost";
+import Plans from "./src/components/Plans";
+import AddPlanScreen from "./src/screens/AddPlanScreen";
 import CalendarScreen from "./src/screens/JournalCalendarScreen";
 
 import AppLoading from "expo-app-loading";
@@ -106,6 +108,28 @@ const JournalStack = () => {
   );
 };
 
+const PlansStack = () => {
+  const [plans, setPlans] = useState([]);
+
+  const handleAddPlan = (addedPlan) => {
+    setPlans((prevPlans) => [...prevPlans, addedPlan]);
+  };
+
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="Plans" options={{ title: "Plans" }}>
+        {(props) => <Plans {...props} plans={plans} />}
+      </Stack.Screen>
+      <Stack.Screen
+        name="AddPlanScreen"
+        component={AddPlanScreen}
+        options={{ title: "Add Plan" }}
+        initialParams={{ onAddPlan: handleAddPlan }}
+      />
+    </Stack.Navigator>
+  );
+};
+
 const HomeStack = () => {
   const [postText, setPostText] = useState("");
 
@@ -178,6 +202,11 @@ const App = () => {
           <Tab.Screen
             name="Home"
             component={HomeStack}
+            options={{ headerShown: false }}
+          />
+          <Tab.Screen
+            name="Plans"
+            component={PlansStack}
             options={{ headerShown: false }}
           />
           <Tab.Screen
