@@ -1,31 +1,54 @@
+// Import necessary modules
 import React, { useState } from "react";
 import {
   View,
   TextInput,
-  Image,
   TouchableOpacity,
   Text,
   StyleSheet,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-
-
+// YourComponent definition
 const YourComponent = () => {
   const navigation = useNavigation();
   const [selectedButton, setSelectedButton] = useState(null);
 
   const handleNotesPress = () => {
-    // Navigate to Notes screen
+    if (selectedButton === "Notes") {
+      // If "Notes" is already selected, do nothing
+      return;
+    }
+
+    // Otherwise, navigate to the Notes screen
     navigation.navigate("NotesScreen");
     setSelectedButton("Notes");
   };
 
   const handlePlansPress = () => {
-    // Navigate to Plans screen
-    navigation.navigate("PlansScreen");
-    setSelectedButton("Plans");
+    if (selectedButton === "Plans") {
+      // If "Plans" is already selected, navigate to the AddPlanScreen
+      navigation.navigate("AddPlanScreen");
+    } else {
+      // Otherwise, navigate to the Plans screen and deselect "Notes"
+      navigation.navigate("PlansScreen");
+      setSelectedButton("Plans");
+    }
   };
+
+  const handleAddPlan = (addedPlan) => {
+    setPlans((prevPlans) => [...prevPlans, addedPlan]);
+  };
+
+  // Circular button for the "Plans" section
+  const plansButton = (
+    <TouchableOpacity
+      style={styles.circularButton}
+      onPress={() => navigation.navigate("AddPlanScreen")}
+    >
+      <Text style={styles.buttonText}>+</Text>
+    </TouchableOpacity>
+  );
 
   return (
     <View>
@@ -51,6 +74,9 @@ const YourComponent = () => {
         </TouchableOpacity>
       </View>
 
+      {/* Display additional content for "Plans" section if selected */}
+      {selectedButton === "Plans" && plansButton}
+
       {/* Rest of your component */}
       <TextInput placeholder="Your input field" />
 
@@ -59,15 +85,16 @@ const YourComponent = () => {
   );
 };
 
+// Styles definition
 const styles = StyleSheet.create({
   miniNavBar: {
     flexDirection: "row",
     justifyContent: "space-between",
     paddingHorizontal: 16,
     paddingTop: 8,
-    backgroundColor: "#fff", // Add your desired background color
+    backgroundColor: "#fff",
     borderBottomWidth: 1,
-    borderBottomColor: "#ddd", // Add your desired border color
+    borderBottomColor: "#ddd",
   },
   button: {
     padding: 8,
@@ -82,6 +109,18 @@ const styles = StyleSheet.create({
     borderBottomWidth: 4,
     borderBottomColor: "#cf22ff",
   },
+  circularButton: {
+    position: "absolute",
+    top: 550,
+    right: 30,
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: "#cf22ff",
+    justifyContent: "center",
+    alignItems: "center",
+  },
 });
 
+// Export YourComponent as default
 export default YourComponent;
