@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   input: {
-    height: 40,
+    height: 100,
     borderColor: "gray",
     borderWidth: 1,
     marginBottom: 16,
