@@ -4,15 +4,6 @@ import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 
-import HomeScreen from "./src/screens/HomeScreen";
-import JournalList from "./src/components/JournalList";
-import CreateJournalEntryScreen from "./src/screens/CreateJournalEntryScreen";
-import JournalDetailScreen from "./src/screens/JournalDetailScreen";
-import CreatePost from "./src/components/CreatePost";
-import Plans from "./src/components/Plans";
-import AddPlanScreen from "./src/screens/AddPlanScreen";
-import CalendarScreen from "./src/screens/JournalCalendarScreen";
-
 import AppLoading from "expo-app-loading";
 import {
   useFonts,
@@ -27,6 +18,18 @@ import {
   Inter_900Black,
 } from "@expo-google-fonts/inter";
 import { Pacifico_400Regular } from "@expo-google-fonts/pacifico";
+
+import HomeScreen from "./src/screens/HomeScreen";
+import JournalList from "./src/components/JournalList";
+import CreateJournalEntryScreen from "./src/screens/CreateJournalEntryScreen";
+import JournalDetailScreen from "./src/screens/JournalDetailScreen";
+import CreatePost from "./src/components/CreatePost";
+import Plans from "./src/components/Plans";
+import AddPlanScreen from "./src/screens/AddPlanScreen";
+import CalendarScreen from "./src/screens/JournalCalendarScreen";
+import LoginScreen from "./src/screens/LoginScreen";
+import RegisterScreen from "./src/screens/RegisterScreen";
+import RegisterTypeScreen from "./src/screens/RegisterTypeScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -166,7 +169,6 @@ const HomeStack = () => {
                 },
               ]}
               onPress={() => {
-                // Implement your logic for the "Post" button in Create Post
                 navigation.navigate("HomeScreen");
               }}
             >
@@ -174,6 +176,38 @@ const HomeStack = () => {
             </Pressable>
           ),
         })}
+      />
+    </Stack.Navigator>
+  );
+};
+
+const LoginStack = () => {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: "#CF22FF",
+        },
+        headerTintColor: "#FAF3FC",
+        headerTitleStyle: {
+          fontFamily: "Inter_600SemiBold",
+        },
+      }}
+    >
+      <Stack.Screen
+        name="LoginScreen"
+        component={LoginScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="RegisterTypeScreen"
+        component={RegisterTypeScreen}
+        options={{ title: "Create account" }}
+      />
+      <Stack.Screen
+        name="RegisterScreen"
+        component={RegisterScreen}
+        options={{ title: "Create account" }}
       />
     </Stack.Navigator>
   );
@@ -215,6 +249,11 @@ const App = () => {
             options={{ headerShown: false }}
           />
           <Tab.Screen name="Calendar" component={CalendarScreen} />
+          <Tab.Screen
+            name="Login"
+            component={LoginStack}
+            options={{ headerShown: false, tabBarStyle: { display: "none" } }}
+          />
         </Tab.Navigator>
       </NavigationContainer>
     );
