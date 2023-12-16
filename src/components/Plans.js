@@ -28,7 +28,7 @@ const YourComponent = () => {
   const handlePlansPress = () => {
     if (selectedButton === "Plans") {
       // If "Plans" is already selected, navigate to the AddPlanScreen
-      navigation.navigate("AddPlanScreen");
+      navigation.navigate("AddPlanScreen", { onAddPlan: handleAddPlan });
     } else {
       // Otherwise, navigate to the Plans screen and deselect "Notes"
       navigation.navigate("PlansScreen");
@@ -38,6 +38,7 @@ const YourComponent = () => {
 
   const handleAddPlan = (addedPlan) => {
     setPlans((prevPlans) => [...prevPlans, addedPlan]);
+    route.params.onAddPlan(addedPlan);
   };
 
   // Circular button for the "Plans" section
@@ -81,6 +82,8 @@ const YourComponent = () => {
       <TextInput placeholder="Your input field" />
 
       {/* Other UI components and logic */}
+
+      
     </View>
   );
 };
