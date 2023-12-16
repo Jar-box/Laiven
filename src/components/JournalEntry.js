@@ -1,43 +1,62 @@
 import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Pressable } from "react-native";
+import JournalStyles from "../JournalStyles";
 
 const JournalEntry = ({ date, rating, content, onPress }) => {
-  return (
-    <TouchableOpacity onPress={onPress}>
-      <View style={styles.container}>
-        <View style={styles.dateRatingContainer}>
-          <Text style={styles.dateText}>{date}</Text>
-          <Text style={styles.ratingText}>{rating}</Text>
-        </View>
+  let ratingBackgroundColor = "";
+  switch (rating) {
+    case "Positive":
+      ratingBackgroundColor = "#38FF88";
+      break;
+    case "Moderate":
+      ratingBackgroundColor = "#EFB258";
+      break;
+    case "Harsh":
+      ratingBackgroundColor = "#DB836D";
+      break;
+    default:
+      ratingBackgroundColor = "#CB8CDA";
+  }
 
-        <Text style={styles.contentText}>{content}</Text>
-      </View>
-    </TouchableOpacity>
+  return (
+    <Pressable onPress={onPress}>
+      {({ pressed }) => (
+        <View style={[styles.container, pressed && styles.containerPressed]}>
+          <View style={styles.dateRatingContainer}>
+            <Text style={JournalStyles.dateText}>{date}</Text>
+            <Text
+              style={[
+                JournalStyles.ratingText,
+                { backgroundColor: ratingBackgroundColor },
+              ]}
+            >
+              {rating}
+            </Text>
+          </View>
+          <Text style={[JournalStyles.contentText, styles.contentText]}>
+            {content}
+          </Text>
+        </View>
+      )}
+    </Pressable>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 15,
-    paddingTop: 10,
+    paddingVertical: 10,
   },
   dateRatingContainer: {
     flexDirection: "row",
     gap: 10,
+    marginBottom: 4,
   },
-  dateText: {
-    fontWeight: "500",
-  },
-  ratingText: {
-    fontSize: 12,
-    fontWeight: "500",
-    backgroundColor: "#06D6A0",
-    paddingVertical: 1,
-    paddingHorizontal: 5,
-    borderRadius: 3.75,
+  containerPressed: {
+    backgroundColor: "#E5E5E5",
   },
   contentText: {
-    color: "#998591",
+    opacity: 0.5,
   },
 });
 

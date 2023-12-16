@@ -1,44 +1,67 @@
 import React, { useState } from "react";
-import { TouchableOpacity, Text } from "react-native";
+import { Pressable, Text } from "react-native";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
+
 import HomeScreen from "./src/screens/HomeScreen";
 import JournalList from "./src/components/JournalList";
 import CreateJournalEntryScreen from "./src/screens/CreateJournalEntryScreen";
 import JournalDetailScreen from "./src/screens/JournalDetailScreen";
 import CreatePost from "./src/components/CreatePost";
+import CalendarScreen from "./src/screens/JournalCalendarScreen";
+
+import AppLoading from "expo-app-loading";
+import {
+  useFonts,
+  Inter_100Thin,
+  Inter_200ExtraLight,
+  Inter_300Light,
+  Inter_400Regular,
+  Inter_500Medium,
+  Inter_600SemiBold,
+  Inter_700Bold,
+  Inter_800ExtraBold,
+  Inter_900Black,
+} from "@expo-google-fonts/inter";
+import { Pacifico_400Regular } from "@expo-google-fonts/pacifico";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
 const JournalStack = () => {
-  const [notes, setNotes] = useState([
+  const [entries, setEntries] = useState([
     {
       id: 1,
       date: "Dec 15, 2023",
-      rating: "Bad",
-      content: "Dear diary...,,winsmarl canaughty...",
+      rating: "Select rating",
+      content: "How's your day?",
     },
     {
       id: 2,
-      date: "Dec 1, 2023",
-      rating: "Kinikilig",
+      date: "Dec 12, 2023",
+      rating: "Positive",
+      content: "Lorem ipsum i miss u so much",
+    },
+    {
+      id: 3,
+      date: "Dec 13, 2023",
+      rating: "Moderate",
       content:
         "Crush ko na si tristan joe lopez kelan ba ako aamin sa kanya huhuhuhuh",
     },
+    {
+      id: 4,
+      date: "Dec 15, 2023",
+      rating: "Harsh",
+      content: "Dear diary...,,winsmarl canaughty...",
+    },
   ]);
+
   const navigation = useNavigation();
 
-  const handleNotePress = (noteId) => {
-    const selectedNote = notes.find((note) => note.id === noteId);
-    if (selectedNote) {
-      navigation.navigate("JournalDetail", selectedNote);
-    }
-  };
-
   const handleCreateEntry = (newEntry) => {
-    setNotes((prevNotes) => [
+    setEntries((prevNotes) => [
       ...prevNotes,
       { id: prevNotes.length + 1, ...newEntry },
     ]);
@@ -49,23 +72,34 @@ const JournalStack = () => {
     <Stack.Navigator>
       <Stack.Screen
         name="JournalList"
-        component={() => (
-          <JournalList notes={notes} onNotePress={handleNotePress} />
-        )}
-        options={{ title: "Journal" }}
-      />
+        options={{
+          title: "Journal",
+          headerTitleStyle: {
+            fontFamily: "Inter_600SemiBold",
+          },
+        }}
+      >
+        {() => <JournalList entries={entries} />}
+      </Stack.Screen>
       <Stack.Screen
         name="CreateJournalEntry"
-        component={() => (
-          <CreateJournalEntryScreen onCreateEntry={handleCreateEntry} />
-        )}
-        options={{ title: "Create Journal Entry" }}
-      />
+        options={{
+          title: "Create Journal Entry",
+          headerTitleStyle: {
+            fontFamily: "Inter_600SemiBold",
+          },
+        }}
+      >
+        {() => <CreateJournalEntryScreen onCreateEntry={handleCreateEntry} />}
+      </Stack.Screen>
       <Stack.Screen
         name="JournalDetail"
         component={JournalDetailScreen}
         options={({ route }) => ({
           title: route.params.date,
+          headerTitleStyle: {
+            fontFamily: "Inter_600SemiBold",
+          },
         })}
       />
     </Stack.Navigator>
@@ -73,39 +107,47 @@ const JournalStack = () => {
 };
 
 const HomeStack = () => {
+  const [postText, setPostText] = useState("");
+
   return (
     <Stack.Navigator>
       <Stack.Screen
         name="HomeScreen"
         component={HomeScreen}
-        options={{ title: "Laiven" }}
+        options={{
+          title: "Laiven",
+          headerTitleStyle: {
+            fontFamily: "Pacifico_400Regular",
+            fontSize: 24,
+          },
+        }}
       />
       <Stack.Screen
         name="CreatePost"
         component={CreatePost}
         options={({ navigation }) => ({
           title: "Create Post",
+          headerTitleStyle: {
+            fontFamily: "Inter_600SemiBold",
+          },
           headerRight: () => (
-            <TouchableOpacity
-              style={{ marginRight: 16 }}
+            <Pressable
+              style={({ pressed }) => [
+                {
+                  marginRight: 16,
+                  backgroundColor: pressed ? "#AD6F91" : "#CF22FF",
+                  borderRadius: 100,
+                  paddingVertical: 4,
+                  paddingHorizontal: 14,
+                },
+              ]}
               onPress={() => {
                 // Implement your logic for the "Post" button in Create Post
                 navigation.navigate("HomeScreen");
               }}
             >
-              <Text
-                style={{
-                  fontWeight: 700,
-                  color: "#F0F6F6",
-                  backgroundColor: "#CF22FF",
-                  borderRadius: 100,
-                  paddingVertical: 4,
-                  paddingHorizontal: 14,
-                }}
-              >
-                Post
-              </Text>
-            </TouchableOpacity>
+              <Text style={{ fontWeight: 700, color: "#FAF3FC" }}>Post</Text>
+            </Pressable>
           ),
         })}
       />
@@ -114,22 +156,40 @@ const HomeStack = () => {
 };
 
 const App = () => {
-  return (
-    <NavigationContainer>
-      <Tab.Navigator>
-        <Tab.Screen
-          name="Home"
-          component={HomeStack}
-          options={{ headerShown: false }}
-        />
-        <Tab.Screen
-          name="Journal"
-          component={JournalStack}
-          options={{ headerShown: false }}
-        />
-      </Tab.Navigator>
-    </NavigationContainer>
-  );
+  let [fontsLoaded] = useFonts({
+    Inter_100Thin,
+    Inter_200ExtraLight,
+    Inter_300Light,
+    Inter_400Regular,
+    Inter_500Medium,
+    Inter_600SemiBold,
+    Inter_700Bold,
+    Inter_800ExtraBold,
+    Inter_900Black,
+    Pacifico_400Regular,
+  });
+
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  } else {
+    return (
+      <NavigationContainer>
+        <Tab.Navigator>
+          <Tab.Screen
+            name="Home"
+            component={HomeStack}
+            options={{ headerShown: false }}
+          />
+          <Tab.Screen
+            name="Journal"
+            component={JournalStack}
+            options={{ headerShown: false }}
+          />
+          <Tab.Screen name="Calendar" component={CalendarScreen} />
+        </Tab.Navigator>
+      </NavigationContainer>
+    );
+  }
 };
 
 export default App;

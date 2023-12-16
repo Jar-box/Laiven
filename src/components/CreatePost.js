@@ -3,17 +3,12 @@ import {
   View,
   TextInput,
   Image,
-  TouchableOpacity,
+  Pressable,
   Text,
   StyleSheet,
 } from "react-native";
 
 const CreatePost = ({ postText, setPostText }) => {
-  const handlePost = () => {
-    // Handle the post action here
-    console.log("Post button pressed!");
-  };
-
   return (
     <View style={styles.postContainer}>
       <TextInput
@@ -24,11 +19,12 @@ const CreatePost = ({ postText, setPostText }) => {
         onChangeText={(text) => setPostText(text)}
       />
       <View style={styles.profileContainer}>
-      <Image
-          source={require('../../assets/Sir.jpg')} 
+        <Image
+          source={require("../../assets/Sir.jpg")}
           style={styles.profileImage}
+          resizeMode="cover"
         />
-      <Text style={styles.usernameText}>Jerremy</Text>
+        <Text style={styles.usernameText}>Jerremy</Text>
       </View>
     </View>
   );
@@ -50,10 +46,10 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   profileContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginTop: -15,
-    position: 'absolute',
+    position: "absolute",
     left: -35,
   },
   profileImage: {
@@ -64,7 +60,7 @@ const styles = StyleSheet.create({
   },
   usernameText: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
 });
 

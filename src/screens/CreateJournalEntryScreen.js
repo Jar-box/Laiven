@@ -1,13 +1,20 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TextInput, Button, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  Pressable,
+  StyleSheet,
+  Picker,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 const CreateJournalEntryScreen = ({ onCreateEntry }) => {
-  const navigation = useNavigation();
-
   const [date, setDate] = useState("");
   const [rating, setRating] = useState("");
   const [content, setContent] = useState("");
+
+  const navigation = useNavigation();
 
   useEffect(() => {
     const currentDate = new Date();
@@ -19,62 +26,61 @@ const CreateJournalEntryScreen = ({ onCreateEntry }) => {
 
   const handleCreateEntry = () => {
     // Validate the input if needed
-
-    // Create a new entry object
     const newEntry = {
       date,
       rating,
       content,
     };
 
-    // Call the provided callback to create the entry
     onCreateEntry(newEntry);
-
-    // Reset the form
     resetForm();
-
-    // Navigate back to the JournalList screen
     navigation.navigate("JournalList");
   };
 
   const resetForm = () => {
-    // Reset the state values to their initial state or empty strings
     setRating("");
     setContent("");
   };
 
   return (
     <View style={styles.container}>
-      <View style={styles.container}>
-        <Text>Date:</Text>
-        <TextInput
-          style={styles.input}
-          value={date}
-          onChangeText={(text) => setDate(text)}
-          editable={false} // Make the date field non-editable
-        />
+      <Text>Date:</Text>
+      <TextInput
+        style={styles.input}
+        value={date}
+        onChangeText={(text) => setDate(text)}
+        readOnly={true}
+      />
 
-        <Text>Rating:</Text>
-        <TextInput
-          style={styles.input}
-          value={rating}
-          onChangeText={(text) => setRating(text)}
-        />
+      <Text>Rating:</Text>
+      <Picker
+        selectedValue={rating}
+        onValueChange={(itemValue) => setRating(itemValue)}
+        style={styles.input}
+      >
+        <Picker.Item label="Select Rating" value="" />
+        <Picker.Item label="Positive" value="Positive" />
+        <Picker.Item label="Moderate" value="Moderate" />
+        <Picker.Item label="Harsh" value="Harsh" />
+      </Picker>
 
-        <Text>Content:</Text>
-        <TextInput
-          style={styles.input}
-          value={content}
-          onChangeText={(text) => setContent(text)}
-          multiline
-        />
+      <Text>Content:</Text>
+      <TextInput
+        style={styles.input}
+        value={content}
+        onChangeText={(text) => setContent(text)}
+        multiline
+      />
 
-        <Button
-          title="Create Entry"
-          onPress={handleCreateEntry}
-          color="#CF22FF"
-        />
-      </View>
+      <Pressable
+        style={({ pressed }) => [
+          styles.button,
+          pressed && styles.buttonPressed,
+        ]}
+        onPress={handleCreateEntry}
+      >
+        <Text style={styles.buttonText}>Create Entry</Text>
+      </Pressable>
     </View>
   );
 };
@@ -90,6 +96,21 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginBottom: 10,
     padding: 8,
+  },
+  button: {
+    backgroundColor: "#CF22FF",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+    marginTop: 10,
+  },
+  buttonPressed: {
+    opacity: 0.7, // Adjust the opacity for the pressed state
+  },
+  buttonText: {
+    color: "#F0F6F6",
+    fontWeight: "bold",
+    fontSize: 16,
   },
 });
 

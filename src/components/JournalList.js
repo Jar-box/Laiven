@@ -1,24 +1,17 @@
 import React from "react";
-import {
-  FlatList,
-  Text,
-  TouchableOpacity,
-  View,
-  StyleSheet,
-} from "react-native";
-import JournalEntry from "./JournalEntry";
+import { FlatList, Text, Pressable, View, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import JournalEntry from "./JournalEntry";
 
-const JournalList = ({ notes }) => {
+const JournalList = ({ entries }) => {
   const navigation = useNavigation();
 
   const handleCreateEntry = () => {
-    // Navigate to the CreateEntryScreen
     navigation.navigate("CreateJournalEntry");
   };
 
-  const handleNotePress = (noteId) => {
-    const selectedNote = notes.find((note) => note.id === noteId);
+  const handleNotePress = (entryId) => {
+    const selectedNote = entries.find((entry) => entry.id === entryId);
     if (selectedNote) {
       navigation.navigate("JournalDetail", selectedNote);
     }
@@ -27,7 +20,7 @@ const JournalList = ({ notes }) => {
   return (
     <View style={styles.container}>
       <FlatList
-        data={notes}
+        data={entries}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <JournalEntry
@@ -39,12 +32,17 @@ const JournalList = ({ notes }) => {
         )}
         ListHeaderComponent={<View />}
       />
-      <TouchableOpacity
-        style={styles.floatingButton}
+      <Pressable
+        style={({ pressed }) => [
+          {
+            ...styles.floatingButton,
+            backgroundColor: pressed ? "#AD6F91" : "#CF22FF",
+          },
+        ]}
         onPress={handleCreateEntry}
       >
         <Text style={styles.buttonText}>+</Text>
-      </TouchableOpacity>
+      </Pressable>
     </View>
   );
 };
@@ -57,7 +55,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 16,
     right: 16,
-    backgroundColor: "#CF22FF",
     borderRadius: 50,
     width: 50,
     height: 50,

@@ -1,47 +1,206 @@
-import React from "react";
-import { View, Text, TouchableOpacity } from "react-native";
-import styles from "../styles";
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  Image,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+} from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
-const HomeScreen = ({ navigation }) => {
+const HomeScreen = () => {
+  const [posts, setPosts] = useState([
+    {
+      id: 1,
+      profilePicture: require("../../assets/Sir.jpg"),
+      name: "John Doe",
+      hoursAgo: "2 hours ago",
+      content: "Just had an amazing day at the beach!",
+      votes: 10,
+      comments: 5,
+      shares: 3,
+    },
+    // Add more posts as needed
+  ]);
+
+  const navigation = useNavigation();
+
+  const handleUpvote = (postId) => {
+    // Check if the user has already upvoted
+    const postIndex = posts.findIndex((post) => post.id === postId);
+    if (postIndex !== -1 && !posts[postIndex].hasUpvoted) {
+      if (!posts[postIndex].hasDownvoted) {
+        const updatedPosts = [...posts];
+        updatedPosts[postIndex] = {
+          ...updatedPosts[postIndex],
+          votes: updatedPosts[postIndex].votes + 1,
+          hasUpvoted: true,
+          hasDownvoted: false,
+        };
+        setPosts(updatedPosts);
+      } else if (posts[postIndex].hasDownvoted) {
+        const updatedPosts = [...posts];
+        updatedPosts[postIndex] = {
+          ...updatedPosts[postIndex],
+          votes: updatedPosts[postIndex].votes + 2,
+          hasUpvoted: true,
+          hasDownvoted: false,
+        };
+        setPosts(updatedPosts);
+      }
+    } else {
+      const updatedPosts = [...posts];
+      updatedPosts[postIndex] = {
+        ...updatedPosts[postIndex],
+        votes: updatedPosts[postIndex].votes - 1,
+        hasUpvoted: false,
+        hasDownvoted: false,
+      };
+      setPosts(updatedPosts);
+    }
+  };
+
+  const handleDownvote = (postId) => {
+    const postIndex = posts.findIndex((post) => post.id === postId);
+    if (postIndex !== -1 && !posts[postIndex].hasDownvoted) {
+      if (!posts[postIndex].hasUpvoted) {
+        const updatedPosts = [...posts];
+        updatedPosts[postIndex] = {
+          ...updatedPosts[postIndex],
+          votes: updatedPosts[postIndex].votes - 1,
+          hasUpvoted: false,
+          hasDownvoted: true,
+        };
+        setPosts(updatedPosts);
+      } else if (posts[postIndex].hasUpvoted) {
+        const updatedPosts = [...posts];
+        updatedPosts[postIndex] = {
+          ...updatedPosts[postIndex],
+          votes: updatedPosts[postIndex].votes - 2,
+          hasUpvoted: false,
+          hasDownvoted: true,
+        };
+        setPosts(updatedPosts);
+      }
+    } else {
+      const updatedPosts = [...posts];
+      updatedPosts[postIndex] = {
+        ...updatedPosts[postIndex],
+        votes: updatedPosts[postIndex].votes + 1,
+        hasUpvoted: false,
+        hasDownvoted: false,
+      };
+      setPosts(updatedPosts);
+    }
+  };
+
+  const handleComment = (postId) => {
+    // Implement comment functionality
+    // Navigate to the comment section or show a modal
+  };
+
+  const handleShare = (postId) => {
+    // Implement share functionality
+    // Update the state accordingly
+  };
+
   return (
-    <View style={styles.container}>
-      {/* Custom-styled Create Post button */}
-      <TouchableOpacity
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          paddingHorizontal: 16,
-          paddingVertical: 8,
-          backgroundColor: "#CF22FF",
-          borderRadius: 20,
-          elevation: 2, // Add elevation for a subtle shadow (Android)
-          shadowColor: "#000", // iOS
-          shadowOffset: {
-            width: 0,
-            height: 2,
-          },
-          shadowOpacity: 0.23,
-          shadowRadius: 2.62,
-        }}
+    <ScrollView style={styles.container}>
+      <Pressable
+        style={styles.createPostButton}
         onPress={() => navigation.navigate("CreatePost")}
       >
-        {/* You can add an icon or any other styling here */}
-        <Text
-          style={{
-            color: "#F0F6F6",
-            fontSize: 16,
-            fontWeight: "bold",
-            marginRight: 8,
-          }}
-        >
-          +
-        </Text>
-        <Text style={{ color: "#F0F6F6", fontSize: 16, fontWeight: "bold" }}>
-          Create Post
-        </Text>
-      </TouchableOpacity>
-    </View>
+        <Text style={styles.createPostButtonText}>Create post</Text>
+      </Pressable>
+      {posts.map((post) => (
+        <View key={post.id} style={styles.border}>
+          <View style={styles.postContainer}>
+            <View style={styles.header}>
+              <Image
+                source={post.profilePicture}
+                style={styles.profilePicture}
+              />
+              <View>
+                <Text style={styles.name}>{post.name}</Text>
+                <Text style={styles.hoursAgo}>{post.hoursAgo}</Text>
+              </View>
+            </View>
+            <Text style={styles.content}>{post.content}</Text>
+            <View style={styles.buttonsContainer}>
+              <View style={styles.votesContainer}>
+                <Pressable onPress={() => handleUpvote(post.id)}>
+                  <Text>Like</Text>
+                </Pressable>
+                <Text>{post.votes}</Text>
+                <Pressable onPress={() => handleDownvote(post.id)}>
+                  <Text>Dislike</Text>
+                </Pressable>
+              </View>
+              <Pressable onPress={() => handleComment(post.id)}>
+                <Text>Comments: {post.comments}</Text>
+              </Pressable>
+              <Pressable onPress={() => handleShare(post.id)}>
+                <Text>Shares: {post.shares}</Text>
+              </Pressable>
+            </View>
+          </View>
+        </View>
+      ))}
+    </ScrollView>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  border: {
+    borderBottomWidth: 0.5,
+    borderBottomColor: "#ccc",
+  },
+  postContainer: {
+    margin: 16,
+    marginBottom: 16,
+  },
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 8,
+  },
+  profilePicture: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    marginRight: 8,
+  },
+  name: {
+    fontWeight: "bold",
+  },
+  hoursAgo: {
+    color: "#888",
+  },
+  content: {
+    marginBottom: 8,
+  },
+  buttonsContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  votesContainer: {
+    flexDirection: "row",
+    gap: 5,
+  },
+  createPostButton: {
+    backgroundColor: "rgba(203, 140, 218, 0.1)",
+    borderRadius: 100,
+    padding: 15,
+    margin: 16,
+  },
+  createPostButtonText: {
+    color: "rgba(17, 5, 20, .7)",
+    fontFamily: "Inter_400Regular",
+  },
+});
 
 export default HomeScreen;
