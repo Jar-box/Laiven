@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, TextInput, Button, Text, StyleSheet } from "react-native";
 
-const AddPlanScreen = ({ navigation, route }) => {
+const AddNoteScreen = ({ navigation, route }) => {
   const [title, setTitle] = useState("");
   const [plan, setPlan] = useState("");
 
@@ -37,7 +37,7 @@ const AddPlanScreen = ({ navigation, route }) => {
       />
 
       {/* Add Plan Button */}
-      <Button title="Add Plan" onPress={handleAddPlan} />
+      <Button title="Add Note" onPress={handleAddPlan} />
     </View>
   );
 };
@@ -60,4 +60,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AddPlanScreen;
+export default AddNoteScreen;

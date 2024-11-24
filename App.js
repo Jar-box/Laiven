@@ -36,7 +36,7 @@ import CalendarScreen from "./src/screens/JournalCalendarScreen";
 import LoginScreen from "./src/screens/LoginScreen";
 import RegisterScreen from "./src/screens/RegisterScreen";
 import RegisterTypeScreen from "./src/screens/RegisterTypeScreen";
-
+import AddNoteScreen from "./src/screens/AddNoteScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -131,9 +131,18 @@ const PlansStack = () => {
         options={{ title: "Add Plan" }}
         initialParams={{ onAddPlan: handleAddPlan }}
       />
+
+        <Stack.Screen
+        name="AddNoteScreen"
+        component={AddNoteScreen}
+        options={{ title: "Add Note" }}
+        initialParams={{ onAddNote: handleAddPlan }}
+      />
     </Stack.Navigator>
+    
   );
 };
+
 
 const HomeStack = () => {
   const [postText, setPostText] = useState("");
