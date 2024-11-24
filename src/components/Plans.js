@@ -7,7 +7,8 @@ import {
   StyleSheet,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import AddPlanScreen from "../screens/AddPlanScreen";
+
+
 
 // YourComponent definition
 const Plans = () => {
@@ -17,13 +18,23 @@ const Plans = () => {
 
   const handleNotesPress = () => {
     if (selectedButton === "Notes") {
-      // If "Notes" is already selected, do nothing
+      
       return;
     }
 
     // Otherwise, navigate to the Notes screen
-    navigation.navigate("NotesScreen");
+    
     setSelectedButton("Notes");
+    const notesButton = (
+      <TouchableOpacity
+        style={styles.circularButton}
+        onPress={() =>
+          navigation.navigate("AddNoteScreen", { onAddPlan: handleAddPlan })
+        }
+      >
+        <Text style={styles.buttonText}>+</Text>
+      </TouchableOpacity>
+    );
   };
 
   const handlePlansPress = () => {
@@ -32,7 +43,7 @@ const Plans = () => {
       navigation.navigate("AddPlanScreen", { onAddPlan: handleAddPlan });
     } else {
       // Otherwise, navigate to the Plans screen and deselect "Notes"
-      navigation.navigate("PlansScreen");
+      navigation.navigate("AddNoteScreen");
       setSelectedButton("Plans");
     }
   };
@@ -47,6 +58,17 @@ const Plans = () => {
       style={styles.circularButton}
       onPress={() =>
         navigation.navigate("AddPlanScreen", { onAddPlan: handleAddPlan })
+      }
+    >
+      <Text style={styles.buttonText}>+</Text>
+    </TouchableOpacity>
+  );
+
+  const notesButton = (
+    <TouchableOpacity
+      style={styles.circularButton}
+      onPress={() =>
+        navigation.navigate("AddNoteScreen", { onAddPlan: handleAddPlan })
       }
     >
       <Text style={styles.buttonText}>+</Text>
@@ -79,6 +101,8 @@ const Plans = () => {
 
       {/* Display additional content for "Plans" section if selected */}
       {selectedButton === "Plans" && plansButton}
+
+      {selectedButton === "Notes" && notesButton}
 
       {/* Rest of your component */}
       <TextInput placeholder="Your input field" />
