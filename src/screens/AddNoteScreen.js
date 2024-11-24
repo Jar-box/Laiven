@@ -5,13 +5,13 @@ const AddNoteScreen = ({ navigation, route }) => {
   const [title, setTitle] = useState("");
   const [plan, setPlan] = useState("");
 
-  const handleAddPlan = () => {
+  const handleAddNote = () => {
     // Handle adding the plan to your data or store
-    const addedPlan = { title, plan };
-    console.log("Added Plan:", addedPlan);
+    const addedNote = { title, plan };
+    console.log("Added Note:", addedNote);
 
     // Pass the added plan back to the Plans component
-    route.params.onAddPlan(addedPlan);
+    route.params.onAddNote(addedNote);
 
     // Navigate back to the previous screen
     navigation.goBack();
@@ -37,7 +37,7 @@ const AddNoteScreen = ({ navigation, route }) => {
       />
 
       {/* Add Plan Button */}
-      <Button title="Add Note" onPress={handleAddPlan} />
+      <Button title="Add Note" onPress={handleAddNote} />
     </View>
   );
 };

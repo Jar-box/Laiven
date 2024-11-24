@@ -15,8 +15,15 @@ const Plans = () => {
   const navigation = useNavigation();
   const [selectedButton, setSelectedButton] = useState(null);
   const [plans, setPlans] = useState([]); // State to manage plans
+  const [notes, setNotes] = useState([]); // State to manage plans
 
-  const handleNotesPress = () => {
+  const handleNotesPress = (addedNote) => {
+    
+
+    console.log('New Note Added:');
+    console.log('Title:', addedNote.title);  // Access the 'title' property
+    console.log('Description:', addedNote.plan);
+
     if (selectedButton === "Notes") {
       
       return;
@@ -29,7 +36,7 @@ const Plans = () => {
       <TouchableOpacity
         style={styles.circularButton}
         onPress={() =>
-          navigation.navigate("AddNoteScreen", { onAddPlan: handleAddPlan })
+          navigation.navigate("AddNoteScreen", { onAddNote: handleAddNote })
         }
       >
         <Text style={styles.buttonText}>+</Text>

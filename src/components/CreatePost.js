@@ -19,7 +19,8 @@ const CreatePost = ({ postText, setPostText }) => {
   const handleSave = async (e) => {
     
     e.preventDefault();
-    console.log(messageRef.current.value);
+    
+    console.log("post added: " + messageRef.current.value);
 
     let data = {
       post: messageRef.current.value,
