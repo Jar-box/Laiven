@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const HomeScreen = () => {
   const [posts, setPosts] = useState([
@@ -22,6 +23,7 @@ const HomeScreen = () => {
       comments: 5,
       shares: 3,
     },
+    
     // Add more posts as needed
   ]);
 
@@ -64,6 +66,7 @@ const HomeScreen = () => {
 
   const handleDownvote = (postId) => {
     const postIndex = posts.findIndex((post) => post.id === postId);
+    
     if (postIndex !== -1 && !posts[postIndex].hasDownvoted) {
       if (!posts[postIndex].hasUpvoted) {
         const updatedPosts = [...posts];
