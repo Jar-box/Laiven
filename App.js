@@ -43,22 +43,21 @@ const JournalStack = () => {
   const [entries, setEntries] = useState([
     {
       id: 1,
-      date: "Dec 12, 2023",
+      date: "Dec 12, 2024",
       rating: "Positive",
       content: "Lorem ipsum i miss u so much",
     },
     {
       id: 2,
-      date: "Dec 13, 2023",
+      date: "Dec 13, 2024",
       rating: "Moderate",
-      content:
-        "Crush ko na si tristan joe lopez kelan ba ako aamin sa kanya huhuhuhuh",
+      content: "Crush ko na si.... kelan ba ako aamin sa kanya huhuhuhuh",
     },
     {
       id: 3,
-      date: "Dec 15, 2023",
+      date: "Dec 15, 2024",
       rating: "Harsh",
-      content: "Dear diary...,,winsmarl canaughty...",
+      content: "Dear diary..., ...",
     },
   ]);
 
@@ -141,7 +140,7 @@ const HomeStack = () => {
         name="HomeScreen"
         component={HomeScreen}
         options={{
-          title: "Laiven",
+          title: "Maiven",
           headerTitleStyle: {
             fontFamily: "Pacifico_400Regular",
             fontSize: 24,
