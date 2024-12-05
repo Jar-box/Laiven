@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useRef} from "react";
 import {
   View,
   TextInput,
@@ -7,8 +7,39 @@ import {
   Text,
   StyleSheet,
 } from "react-native";
+import { firestore } from "../../db/firestore";
+import { addDoc,collection } from "firebase/firestore";
+import HomeScreen from "../screens/HomeScreen";
+
 
 const CreatePost = ({ postText, setPostText }) => {
+  const messageRef = useRef();
+  const ref = collection(firestore,"post");
+
+  const handleSave = async (e) => {
+    
+    e.preventDefault();
+    
+    console.log("post added: " + messageRef.current.value);
+
+    let data = {
+      post: messageRef.current.value,
+   
+     }
+     
+     try {
+       addDoc(ref,data)
+       
+       
+     } catch(e) {
+       console.log(e);
+     }
+     
+     
+  }
+
+  
+  
   return (
     <View style={styles.postContainer}>
       <View style={styles.profileContainer}>
@@ -17,17 +48,25 @@ const CreatePost = ({ postText, setPostText }) => {
           style={styles.profileImage}
           resizeMode="cover"
         />
-        <Text style={styles.usernameText}>Jerremy</Text>
+        <Text style={styles.usernameText}>John Doe</Text>
+        
+        <button type="button" onClick={handleSave}>Post</button>
       </View>
       <TextInput
         style={styles.input}
         placeholder="Create post"
         multiline
         value={postText}
-        onChangeText={(text) => setPostText(text)}
+        ref={messageRef}
+        
+        
       />
+    
+      
+      
     </View>
   );
+  
 };
 
 const styles = StyleSheet.create({

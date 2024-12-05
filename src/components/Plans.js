@@ -7,32 +7,50 @@ import {
   StyleSheet,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import AddPlanScreen from "../screens/AddPlanScreen";
+
+
 
 // YourComponent definition
 const Plans = () => {
   const navigation = useNavigation();
   const [selectedButton, setSelectedButton] = useState(null);
   const [plans, setPlans] = useState([]); // State to manage plans
+  const [notes, setNotes] = useState([]); // State to manage plans
 
-  const handleNotesPress = () => {
+  const handleNotesPress = (addedNote) => {
+    
+
+    console.log('New Note Added:');
+    console.log('Title:', addedNote.title);  // Access the 'title' property
+    console.log('Description:', addedNote.plan);
+
     if (selectedButton === "Notes") {
-      // If "Notes" is already selected, do nothing
+      
       return;
     }
 
     // Otherwise, navigate to the Notes screen
-    navigation.navigate("NotesScreen");
+    
     setSelectedButton("Notes");
+    const notesButton = (
+      <TouchableOpacity
+        style={styles.circularButton}
+        onPress={() =>
+          navigation.navigate("AddNoteScreen", { onAddNote: handleAddNote })
+        }
+      >
+        <Text style={styles.buttonText}>+</Text>
+      </TouchableOpacity>
+    );
   };
 
   const handlePlansPress = () => {
     if (selectedButton === "Plans") {
       // If "Plans" is already selected, navigate to the AddPlanScreen
-      navigation.navigate("AddPlanScreen", { onAddPlan: handleAddPlan });
+      
     } else {
       // Otherwise, navigate to the Plans screen and deselect "Notes"
-      navigation.navigate("PlansScreen");
+      
       setSelectedButton("Plans");
     }
   };
@@ -47,6 +65,17 @@ const Plans = () => {
       style={styles.circularButton}
       onPress={() =>
         navigation.navigate("AddPlanScreen", { onAddPlan: handleAddPlan })
+      }
+    >
+      <Text style={styles.buttonText}>+</Text>
+    </TouchableOpacity>
+  );
+
+  const notesButton = (
+    <TouchableOpacity
+      style={styles.circularButton}
+      onPress={() =>
+        navigation.navigate("AddNoteScreen", { onAddPlan: handleAddPlan })
       }
     >
       <Text style={styles.buttonText}>+</Text>
@@ -80,8 +109,10 @@ const Plans = () => {
       {/* Display additional content for "Plans" section if selected */}
       {selectedButton === "Plans" && plansButton}
 
+      {selectedButton === "Notes" && notesButton}
+
       {/* Rest of your component */}
-      <TextInput placeholder="Your input field" />
+      
 
       {/* Other UI components and logic */}
     </View>

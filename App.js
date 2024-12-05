@@ -25,6 +25,7 @@ import {
 import { Pacifico_400Regular } from "@expo-google-fonts/pacifico";
 
 import HomeScreen from "./src/screens/HomeScreen";
+import firestore from "./db/firestore";
 import JournalList from "./src/components/JournalList";
 import CreateJournalEntryScreen from "./src/screens/CreateJournalEntryScreen";
 import JournalDetailScreen from "./src/screens/JournalDetailScreen";
@@ -35,6 +36,7 @@ import CalendarScreen from "./src/screens/JournalCalendarScreen";
 import LoginScreen from "./src/screens/LoginScreen";
 import RegisterScreen from "./src/screens/RegisterScreen";
 import RegisterTypeScreen from "./src/screens/RegisterTypeScreen";
+import AddNoteScreen from "./src/screens/AddNoteScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -45,7 +47,7 @@ const JournalStack = () => {
       id: 1,
       date: "Dec 12, 2024",
       rating: "Positive",
-      content: "Lorem ipsum i miss u so much",
+      content: "Dear diary.....",
     },
     {
       id: 2,
@@ -57,7 +59,7 @@ const JournalStack = () => {
       id: 3,
       date: "Dec 15, 2024",
       rating: "Harsh",
-      content: "Dear diary..., ...",
+      content: "Dear diary......",
     },
   ]);
 
@@ -127,6 +129,13 @@ const PlansStack = () => {
         options={{ title: "Add Plan" }}
         initialParams={{ onAddPlan: handleAddPlan }}
       />
+
+      <Stack.Screen
+        name="AddNoteScreen"
+        component={AddNoteScreen}
+        options={{ title: "Add Note" }}
+        initialParams={{ onAddNote: handleAddPlan }}
+      />
     </Stack.Navigator>
   );
 };
@@ -140,6 +149,7 @@ const HomeStack = () => {
         name="HomeScreen"
         component={HomeScreen}
         options={{
+          title: "Maiven",
           title: "Maiven",
           headerTitleStyle: {
             fontFamily: "Pacifico_400Regular",
@@ -155,24 +165,6 @@ const HomeStack = () => {
           headerTitleStyle: {
             fontFamily: "Inter_600SemiBold",
           },
-          headerRight: () => (
-            <Pressable
-              style={({ pressed }) => [
-                {
-                  marginRight: 16,
-                  backgroundColor: pressed ? "#AD6F91" : "#CF22FF",
-                  borderRadius: 100,
-                  paddingVertical: 4,
-                  paddingHorizontal: 14,
-                },
-              ]}
-              onPress={() => {
-                navigation.navigate("HomeScreen");
-              }}
-            >
-              <Text style={{ fontWeight: 700, color: "#FAF3FC" }}>Post</Text>
-            </Pressable>
-          ),
         })}
       />
     </Stack.Navigator>
