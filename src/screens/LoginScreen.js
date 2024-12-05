@@ -15,7 +15,7 @@ const LoginScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.contentContainer}>
-        <Text style={styles.title}>Laiven</Text>
+        <Text style={styles.title}>Maiven</Text>
         <View style={styles.inputContainer}>
           <TextInput style={styles.loginText} placeholder="Username" />
         </View>

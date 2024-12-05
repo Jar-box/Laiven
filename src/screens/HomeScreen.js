@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const HomeScreen = () => {
   const [posts, setPosts] = useState([
@@ -21,6 +22,46 @@ const HomeScreen = () => {
       votes: 8,
       comments: 5,
       shares: 3,
+    },
+    {
+      id: 1,
+      profilePicture: require("../../assets/Sir.jpg"),
+      name: "John Doe",
+      hoursAgo: "3 hours ago",
+      content: "Mcdo is better than Jollibee",
+      votes: 109,
+      comments: 280,
+      shares: 53,
+    },
+    {
+      id: 1,
+      profilePicture: require("../../assets/sira.jpg"),
+      name: "James Peterson",
+      hoursAgo: "5 hours ago",
+      content: "There are 3 single mothers near me. Is this true?",
+      votes: 20,
+      comments: 3,
+      shares: 1,
+    },
+    {
+      id: 1,
+      profilePicture: require("../../assets/Sir.jpg"),
+      name: "John Doe",
+      hoursAgo: "5 hours ago",
+      content: "Is Campbell halal or not? I might give them to my fur babies",
+      votes: 12,
+      comments: 20,
+      shares: 59,
+    },
+    {
+      id: 1,
+      profilePicture: require("../../assets/sisterakas.jpg"),
+      name: "Junel Makabog",
+      hoursAgo: "9 hours ago",
+      content: "Im sick, who will look after my sons",
+      votes: 13,
+      comments: 50,
+      shares: 19,
     },
     // Add more posts as needed
   ]);
@@ -64,6 +105,7 @@ const HomeScreen = () => {
 
   const handleDownvote = (postId) => {
     const postIndex = posts.findIndex((post) => post.id === postId);
+    
     if (postIndex !== -1 && !posts[postIndex].hasDownvoted) {
       if (!posts[postIndex].hasUpvoted) {
         const updatedPosts = [...posts];
