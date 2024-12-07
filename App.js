@@ -46,19 +46,22 @@ const JournalStack = () => {
       id: 1,
       date: "Dec 12, 2024",
       rating: "Positive",
-      content: "Dear diary.....",
+      content:
+        "Today was wonderful! My little one said their first full sentence. It feels like all those sleepless nights are so worth it.",
     },
     {
       id: 2,
       date: "Dec 13, 2024",
       rating: "Moderate",
-      content: "Crush ko na si.... kelan ba ako aamin sa kanya huhuhuhuh",
+      content:
+        "It was a mixed day. Managed to finish the laundry while the kids napped, but dinner was chaos with spaghetti everywhere!",
     },
     {
       id: 3,
       date: "Dec 15, 2024",
       rating: "Harsh",
-      content: "Dear diary......",
+      content:
+        "What a tough day. My toddler had a meltdown in the grocery store, and I felt so judged by the stares of strangers. Parenting is hard sometimes.",
     },
   ]);
 
