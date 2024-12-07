@@ -1,4 +1,4 @@
-import React, {useRef} from "react";
+import React, { useState } from "react";
 import {
   View,
   TextInput,
@@ -7,39 +7,34 @@ import {
   Text,
   StyleSheet,
 } from "react-native";
-import { firestore } from "../../db/firestore";
-import { addDoc,collection } from "firebase/firestore";
 import HomeScreen from "../screens/HomeScreen";
 
+const CreatePost = ({ posts, setPosts }) => {
+  const [newPostContent, setNewPostContent] = useState("");
+  const [profileName, setProfileName] = useState("New User");
+  const [profilePicture, setProfilePicture] = useState(
+    "https://randomuser.me/api/portraits/men/3.jpg"
+  );
 
-const CreatePost = ({ postText, setPostText }) => {
-  const messageRef = useRef();
-  const ref = collection(firestore,"post");
-
-  const handleSave = async (e) => {
-    
+  const handleCreatePost = async (e) => {
     e.preventDefault();
-    
     console.log("post added: " + messageRef.current.value);
 
-    let data = {
-      post: messageRef.current.value,
-   
-     }
-     
-     try {
-       addDoc(ref,data)
-       
-       
-     } catch(e) {
-       console.log(e);
-     }
-     
-     
-  }
+    const newPost = {
+      id: String(posts.length + 1),
+      name: profileName,
+      profilePicture: profilePicture,
+      time: "Just now",
+      content: newPostContent,
+      upvotes: 0,
+      downvotes: 0,
+      comments: 0,
+    };
+    setPosts([newPost, ...posts]); // Add new post at the top
+    setNewPostContent(""); // Clear input
+    navigation.goBack(); // Go back to News Feed
+  };
 
-  
-  
   return (
     <View style={styles.postContainer}>
       <View style={styles.profileContainer}>
@@ -49,24 +44,20 @@ const CreatePost = ({ postText, setPostText }) => {
           resizeMode="cover"
         />
         <Text style={styles.usernameText}>John Doe</Text>
-        
-        <button type="button" onClick={handleSave}>Post</button>
+
+        <button type="button" onPress={handleCreatePost}>
+          Post
+        </button>
       </View>
       <TextInput
         style={styles.input}
-        placeholder="Create post"
+        placeholder="What's on your mind?"
         multiline
-        value={postText}
-        ref={messageRef}
-        
-        
+        value={newPostContent}
+        onChangeText={setNewPostContent}
       />
-    
-      
-      
     </View>
   );
-  
 };
 
 const styles = StyleSheet.create({
