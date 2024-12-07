@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Text,
   View,
@@ -6,34 +6,61 @@ import {
   StyleSheet,
   TextInput,
   Pressable,
+  Alert,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 const LoginScreen = () => {
   const navigation = useNavigation();
 
+  // State to store username, password and error message
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState(""); // State for error message
+
+  const handleLogin = () => {
+    // Hardcoded credentials
+    const correctUsername = "WoPaPaCaCa";
+    const correctPassword = "1234567890";
+
+    // Check if username and password match
+    if (username === correctUsername && password === correctPassword) {
+      setUsername(""); // Clear username input after login
+      setPassword(""); // Clear password input after login
+      setErrorMessage(""); // Clear any previous error message
+      navigation.navigate("HomeScreen"); // Navigate to HomeScreen
+    } else {
+      setErrorMessage("Invalid username or password"); // Set error message
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.contentContainer}>
         <Text style={styles.title}>Maiven</Text>
         <View style={styles.inputContainer}>
-          <TextInput style={styles.loginText} placeholder="Username" />
+          <TextInput
+            style={styles.loginText}
+            placeholder="Username"
+            value={username}
+            onChangeText={setUsername} // Update username state
+          />
         </View>
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.loginText}
             placeholder="Password"
             secureTextEntry
+            value={password}
+            onChangeText={setPassword} // Update password state
           />
         </View>
-        <Pressable
-          style={styles.loginButton}
-          onPress={() => {
-            navigation.navigate("HomeScreen");
-          }}
-        >
+        <Pressable style={styles.loginButton} onPress={handleLogin}>
           <Text style={styles.buttonText}>Log in</Text>
         </Pressable>
+        {errorMessage ? (
+          <Text style={styles.errorText}>{errorMessage}</Text> // Display error message if exists
+        ) : null}
         <Text style={styles.forgotText}>Forgot password?</Text>
       </View>
       <View
@@ -83,7 +110,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginTop: 12,
-    marginBottom: 50,
     fontFamily: "Inter_400Regular",
     fontSize: "13px",
   },
@@ -125,6 +151,13 @@ const styles = StyleSheet.create({
     color: "#FAF3FC",
     fontFamily: "Inter_500Medium",
     fontSize: "10.83px",
+    marginTop: 50,
+  },
+  errorText: {
+    color: "#3B0E0E",
+    fontFamily: "Inter_500Medium",
+    fontSize: "13px",
+    marginTop: 13,
   },
 });
 

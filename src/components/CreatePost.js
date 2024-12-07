@@ -9,10 +9,13 @@ import {
 } from "react-native";
 import { firestore } from "../../db/firestore";
 import { addDoc, collection } from "firebase/firestore";
+import { useNavigation } from "@react-navigation/native"; // Import useNavigation
 
 const CreatePost = ({ postText, setPostText }) => {
   const messageRef = useRef();
   const ref = collection(firestore, "post");
+
+  const navigation = useNavigation(); // Initialize useNavigation
 
   const handleSave = async (e) => {
     e.preventDefault();
@@ -26,6 +29,7 @@ const CreatePost = ({ postText, setPostText }) => {
     try {
       await addDoc(ref, data);
       setPostText(""); // Clear the input after saving the post
+      navigation.navigate("HomeScreen"); // Navigate to HomeScreen after saving the post
     } catch (e) {
       console.log(e);
     }

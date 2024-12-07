@@ -65,39 +65,6 @@ const JournalStack = () => {
     },
   ]);
 
-  const samplePosts = [
-    {
-      id: "1",
-      name: "John Doe",
-      profilePicture: "https://randomuser.me/api/portraits/men/1.jpg",
-      time: "1 hour ago",
-      content: "This is a sample post.",
-      upvotes: 10,
-      downvotes: 2,
-      comments: 5,
-    },
-    {
-      id: "2",
-      name: "Jane Smith",
-      profilePicture: "https://randomuser.me/api/portraits/women/1.jpg",
-      time: "2 hours ago",
-      content: "This is another sample post.",
-      upvotes: 15,
-      downvotes: 1,
-      comments: 3,
-    },
-    {
-      id: "3",
-      name: "Tom Brown",
-      profilePicture: "https://randomuser.me/api/portraits/men/2.jpg",
-      time: "3 hours ago",
-      content: "Here is yet another sample post.",
-      upvotes: 8,
-      downvotes: 4,
-      comments: 2,
-    },
-  ];
-
   const navigation = useNavigation();
 
   const handleCreateEntry = (newEntry) => {
