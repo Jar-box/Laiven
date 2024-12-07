@@ -1,4 +1,4 @@
-package rada_supan.laven;
+package wp2c2.laiven;
 
 import android.app.Application;
 import android.content.res.Configuration;

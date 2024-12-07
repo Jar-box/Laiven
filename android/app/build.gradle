@@ -81,9 +81,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace 'rada_supan.laven'
+    namespace 'wp2c2.laiven'
     defaultConfig {
-        applicationId 'rada_supan.laven'
+        applicationId 'wp2c2.laiven'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
