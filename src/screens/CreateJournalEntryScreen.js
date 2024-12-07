@@ -25,7 +25,6 @@ const CreateJournalEntryScreen = ({ onCreateEntry }) => {
   }, []);
 
   const handleCreateEntry = () => {
-    // Validate the input if needed
     const newEntry = {
       date,
       rating,
@@ -33,14 +32,10 @@ const CreateJournalEntryScreen = ({ onCreateEntry }) => {
     };
 
     onCreateEntry(newEntry);
-    resetForm();
     navigation.navigate("JournalList");
   };
 
-  const resetForm = () => {
-    setRating("");
-    setContent("");
-  };
+  const isButtonDisabled = !rating || !content.trim();
 
   return (
     <View style={styles.container}>
@@ -58,7 +53,7 @@ const CreateJournalEntryScreen = ({ onCreateEntry }) => {
         onValueChange={(itemValue) => setRating(itemValue)}
         style={styles.input}
       >
-        <Picker.Item label="Select Rating" value="" />
+        {!rating && <Picker.Item label="Select Rating" value="" />}
         <Picker.Item label="Positive" value="Positive" />
         <Picker.Item label="Moderate" value="Moderate" />
         <Picker.Item label="Harsh" value="Harsh" />
@@ -75,9 +70,11 @@ const CreateJournalEntryScreen = ({ onCreateEntry }) => {
       <Pressable
         style={({ pressed }) => [
           styles.button,
-          pressed && styles.buttonPressed,
+          pressed && !isButtonDisabled && styles.buttonPressed,
+          isButtonDisabled && styles.buttonDisabled,
         ]}
         onPress={handleCreateEntry}
+        disabled={isButtonDisabled}
       >
         <Text style={styles.buttonText}>Create Entry</Text>
       </Pressable>
@@ -105,7 +102,10 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   buttonPressed: {
-    opacity: 0.7, // Adjust the opacity for the pressed state
+    opacity: 0.7,
+  },
+  buttonDisabled: {
+    backgroundColor: "#ccc",
   },
   buttonText: {
     color: "#F0F6F6",

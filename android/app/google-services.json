@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "763955060070",
+    "project_id": "maiven-936fe",
+    "storage_bucket": "maiven-936fe.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:763955060070:android:6181e633e3a89f8dc2fca7",
+        "android_client_info": {
+          "package_name": "WP2C2.Maiven"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4cG52ArvVri9-bDkJUDQVs3jHzuc-t6c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

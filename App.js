@@ -25,7 +25,6 @@ import {
 import { Pacifico_400Regular } from "@expo-google-fonts/pacifico";
 
 import HomeScreen from "./src/screens/HomeScreen";
-import firestore from "./db/firestore";
 import JournalList from "./src/components/JournalList";
 import CreateJournalEntryScreen from "./src/screens/CreateJournalEntryScreen";
 import JournalDetailScreen from "./src/screens/JournalDetailScreen";
@@ -41,27 +40,28 @@ import AddNoteScreen from "./src/screens/AddNoteScreen";
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
-
 const JournalStack = () => {
   const [entries, setEntries] = useState([
     {
       id: 1,
-      date: "Dec 12, 2023",
+      date: "Dec 12, 2024",
       rating: "Positive",
-      content: "Dear diary.....",
+      content:
+        "Today was wonderful! My little one said their first full sentence. It feels like all those sleepless nights are so worth it.",
     },
     {
       id: 2,
-      date: "Dec 13, 2023",
+      date: "Dec 13, 2024",
       rating: "Moderate",
       content:
-        "Crush ko na si kelan ba ako aamin sa kanya huhuhuhuh",
+        "It was a mixed day. Managed to finish the laundry while the kids napped, but dinner was chaos with spaghetti everywhere!",
     },
     {
       id: 3,
-      date: "Dec 15, 2023",
+      date: "Dec 15, 2024",
       rating: "Harsh",
-      content: "Dear diary......",
+      content:
+        "What a tough day. My toddler had a meltdown in the grocery store, and I felt so judged by the stares of strangers. Parenting is hard sometimes.",
     },
   ]);
 
@@ -132,17 +132,15 @@ const PlansStack = () => {
         initialParams={{ onAddPlan: handleAddPlan }}
       />
 
-        <Stack.Screen
+      <Stack.Screen
         name="AddNoteScreen"
         component={AddNoteScreen}
         options={{ title: "Add Note" }}
         initialParams={{ onAddNote: handleAddPlan }}
       />
     </Stack.Navigator>
-    
   );
 };
-
 
 const HomeStack = () => {
   const [postText, setPostText] = useState("");
@@ -153,6 +151,7 @@ const HomeStack = () => {
         name="HomeScreen"
         component={HomeScreen}
         options={{
+          title: "Maiven",
           title: "Maiven",
           headerTitleStyle: {
             fontFamily: "Pacifico_400Regular",
@@ -168,7 +167,6 @@ const HomeStack = () => {
           headerTitleStyle: {
             fontFamily: "Inter_600SemiBold",
           },
-            
         })}
       />
     </Stack.Navigator>

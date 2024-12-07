@@ -9,59 +9,73 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const HomeScreen = () => {
   const [posts, setPosts] = useState([
     {
       id: 1,
       profilePicture: require("../../assets/Sir.jpg"),
-      name: "John Doe",
+      name: "Jane Smith",
       hoursAgo: "2 hours ago",
-      content: "Just had an amazing day at the beach!",
-      votes: 8,
-      comments: 5,
-      shares: 3,
+      content:
+        "How do you handle bedtime tantrums? My 3-year-old just won’t sleep without a fight.",
+      votes: 25,
+      comments: 15,
+      shares: 5,
+      hasUpvoted: false,
+      hasDownvoted: false,
     },
     {
-      id: 1,
+      id: 2,
       profilePicture: require("../../assets/Sir.jpg"),
-      name: "John Doe",
+      name: "Michael Brown",
       hoursAgo: "3 hours ago",
-      content: "Mcdo is better than Jollibee",
-      votes: 109,
-      comments: 280,
-      shares: 53,
-    },
-    {
-      id: 1,
-      profilePicture: require("../../assets/sira.jpg"),
-      name: "James Peterson",
-      hoursAgo: "5 hours ago",
-      content: "There are 3 single mothers near me. Is this true?",
-      votes: 20,
-      comments: 3,
-      shares: 1,
-    },
-    {
-      id: 1,
-      profilePicture: require("../../assets/Sir.jpg"),
-      name: "John Doe",
-      hoursAgo: "5 hours ago",
-      content: "Is Campbell halal or not? I might give them to my fur babies",
-      votes: 12,
+      content:
+        "I just discovered a great trick to get picky eaters to enjoy veggies! DM me if you want tips.",
+      votes: 50,
       comments: 20,
-      shares: 59,
+      shares: 12,
+      hasUpvoted: false,
+      hasDownvoted: false,
     },
     {
-      id: 1,
+      id: 3,
+      profilePicture: require("../../assets/sira.jpg"),
+      name: "Lisa Johnson",
+      hoursAgo: "5 hours ago",
+      content:
+        "Can anyone recommend a good parenting podcast? I want to learn more about positive discipline.",
+      votes: 18,
+      comments: 8,
+      shares: 3,
+      hasUpvoted: false,
+      hasDownvoted: false,
+    },
+    {
+      id: 4,
+      profilePicture: require("../../assets/Sir.jpg"),
+      name: "Chris Taylor",
+      hoursAgo: "5 hours ago",
+      content:
+        "Do other parents feel guilty taking a day off for themselves? How do you manage self-care?",
+      votes: 35,
+      comments: 25,
+      shares: 10,
+      hasUpvoted: false,
+      hasDownvoted: false,
+    },
+    {
+      id: 5,
       profilePicture: require("../../assets/sisterakas.jpg"),
-      name: "Junel Makabog",
+      name: "Emily Davis",
       hoursAgo: "9 hours ago",
-      content: "Im sick, who will look after my sons",
-      votes: 13,
-      comments: 50,
-      shares: 19,
+      content:
+        "My toddler is suddenly super clingy, even with their dad. Is this a phase? Any advice?",
+      votes: 40,
+      comments: 30,
+      shares: 15,
+      hasUpvoted: false,
+      hasDownvoted: false,
     },
     // Add more posts as needed
   ]);
@@ -69,71 +83,55 @@ const HomeScreen = () => {
   const navigation = useNavigation();
 
   const handleUpvote = (postId) => {
-    // Check if the user has already upvoted
+    // Find the post by its id
     const postIndex = posts.findIndex((post) => post.id === postId);
-    if (postIndex !== -1 && !posts[postIndex].hasUpvoted) {
-      if (!posts[postIndex].hasDownvoted) {
-        const updatedPosts = [...posts];
-        updatedPosts[postIndex] = {
-          ...updatedPosts[postIndex],
-          votes: updatedPosts[postIndex].votes + 1,
-          hasUpvoted: true,
-          hasDownvoted: false,
-        };
-        setPosts(updatedPosts);
-      } else if (posts[postIndex].hasDownvoted) {
-        const updatedPosts = [...posts];
-        updatedPosts[postIndex] = {
-          ...updatedPosts[postIndex],
-          votes: updatedPosts[postIndex].votes + 2,
-          hasUpvoted: true,
-          hasDownvoted: false,
-        };
-        setPosts(updatedPosts);
-      }
-    } else {
+    if (postIndex !== -1) {
       const updatedPosts = [...posts];
-      updatedPosts[postIndex] = {
-        ...updatedPosts[postIndex],
-        votes: updatedPosts[postIndex].votes - 1,
-        hasUpvoted: false,
-        hasDownvoted: false,
-      };
+      const post = updatedPosts[postIndex];
+
+      if (!post.hasUpvoted) {
+        // Upvote the post
+        if (!post.hasDownvoted) {
+          post.votes += 1;
+        } else {
+          post.votes += 2; // If it was downvoted, cancel out the downvote and add 1 for the upvote
+        }
+        post.hasUpvoted = true;
+        post.hasDownvoted = false;
+      } else {
+        // Cancel the upvote
+        post.votes -= 1;
+        post.hasUpvoted = false;
+        post.hasDownvoted = false;
+      }
+
       setPosts(updatedPosts);
     }
   };
 
   const handleDownvote = (postId) => {
     const postIndex = posts.findIndex((post) => post.id === postId);
-    
-    if (postIndex !== -1 && !posts[postIndex].hasDownvoted) {
-      if (!posts[postIndex].hasUpvoted) {
-        const updatedPosts = [...posts];
-        updatedPosts[postIndex] = {
-          ...updatedPosts[postIndex],
-          votes: updatedPosts[postIndex].votes - 1,
-          hasUpvoted: false,
-          hasDownvoted: true,
-        };
-        setPosts(updatedPosts);
-      } else if (posts[postIndex].hasUpvoted) {
-        const updatedPosts = [...posts];
-        updatedPosts[postIndex] = {
-          ...updatedPosts[postIndex],
-          votes: updatedPosts[postIndex].votes - 2,
-          hasUpvoted: false,
-          hasDownvoted: true,
-        };
-        setPosts(updatedPosts);
-      }
-    } else {
+
+    if (postIndex !== -1) {
       const updatedPosts = [...posts];
-      updatedPosts[postIndex] = {
-        ...updatedPosts[postIndex],
-        votes: updatedPosts[postIndex].votes + 1,
-        hasUpvoted: false,
-        hasDownvoted: false,
-      };
+      const post = updatedPosts[postIndex];
+
+      if (!post.hasDownvoted) {
+        // Downvote the post
+        if (!post.hasUpvoted) {
+          post.votes -= 1;
+        } else {
+          post.votes -= 2; // If it was upvoted, cancel out the upvote and subtract 1 for the downvote
+        }
+        post.hasUpvoted = false;
+        post.hasDownvoted = true;
+      } else {
+        // Cancel the downvote
+        post.votes += 1;
+        post.hasUpvoted = false;
+        post.hasDownvoted = false;
+      }
+
       setPosts(updatedPosts);
     }
   };
@@ -213,7 +211,6 @@ const HomeScreen = () => {
                 onPress={() => handleShare(post.id)}
                 style={styles.buttonContainer}
               >
-                {" "}
                 <MaterialCommunityIcons
                   name="share-outline"
                   size={20}
